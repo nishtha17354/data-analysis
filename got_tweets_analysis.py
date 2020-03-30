@@ -38,20 +38,15 @@ twitter_db = client['admin']
 tweets_collection = twitter_db['tweets']
 
 api.search('GameOfThrones')
-
-
-#part (a): the sample tweets
-# to insert data
+# code to insert data in the database
 for tweet in tweepy.Cursor(api.user_timeline, screen_name = 'GameOfThrones', rpp=3200, count=20, result_type="recent", include_entities=True, lang="en").items(3200):
     d = tweet._json
     d['_id'] = d['id_str']
     print(d)
-#     tweets_collection.insert_one(d)
+    tweets_collection.insert_one(d)
 
 tweets_collection.count()
 
-#tweets is dictionary of dictionary
-#i is dictionary
 #print(i['created_at']): dates of every tweet
 tweets = tweets_collection.find({})
 date_List = list()
@@ -63,10 +58,7 @@ for i in tqdm(tweets):
     date_List.append(date)
     
 date_List.sort()   
-# print(date_List)
-#     print(i['created_at'])
 
-# print(date_List[0])
 count_dates={}
 for i in date_List:
     s=str(i.day)+ "-"+ str(i.month)+ "-"+ str(i.year)
@@ -77,10 +69,9 @@ for i in date_List:
 # print(count_dates)
         
         
-# !pip install -U pandas
+#plot of date vs frequency
 df = pd.DataFrame(count_dates.items(), columns=['date', 'frequency'])
-# !pip install plotly==3.7.1
-# !pip uninstall plotly
+!pip install plotly==3.7.1
 get_ipython().system('pip install chart-studio')
 
 
