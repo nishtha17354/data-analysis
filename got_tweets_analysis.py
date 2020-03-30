@@ -9,8 +9,6 @@ from tqdm import tqdm
 import os
 
 
-# In[7]:
-
 # YOUR TWITTER ACCESS KEYS
 CONSUMER_KEY=''
 CONSUMER_SECRET=''
@@ -19,8 +17,6 @@ ACCESS_TOKEN_SECRET=''
 MONGODB_CONNECTIONSTRING='mongodb://<username>:<password>@<hostname>:<port>'
 PLOTLY_USERNAME=''
 PLOTLY_API_KEY=''
-
-# In[3]:
 
 
 #access keys
@@ -36,22 +32,12 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 
-# In[8]:
-
-
 #code to connect the database
 client = MongoClient(MONGODB_CONNECTIONSTRING)
 twitter_db = client['admin'] 
 tweets_collection = twitter_db['tweets']
 
-
-# In[9]:
-
-
 api.search('GameOfThrones')
-
-
-# In[10]:
 
 
 #part (a): the sample tweets
@@ -62,15 +48,7 @@ for tweet in tweepy.Cursor(api.user_timeline, screen_name = 'GameOfThrones', rpp
     print(d)
 #     tweets_collection.insert_one(d)
 
-
-# In[12]:
-
-
 tweets_collection.count()
-
-
-# In[15]:
-
 
 #tweets is dictionary of dictionary
 #i is dictionary
@@ -88,10 +66,6 @@ date_List.sort()
 # print(date_List)
 #     print(i['created_at'])
 
-
-# In[16]:
-
-
 # print(date_List[0])
 count_dates={}
 for i in date_List:
@@ -103,12 +77,6 @@ for i in date_List:
 # print(count_dates)
         
         
-    
-
-
-# In[17]:
-
-
 # !pip install -U pandas
 df = pd.DataFrame(count_dates.items(), columns=['date', 'frequency'])
 # !pip install plotly==3.7.1
@@ -116,7 +84,7 @@ df = pd.DataFrame(count_dates.items(), columns=['date', 'frequency'])
 get_ipython().system('pip install chart-studio')
 
 
-# In[23]:
+
 
 
 #part(d)
@@ -143,7 +111,7 @@ py.iplot(data, filename='fil')
 # ("plot for No. of tweets vs days")
 
 
-# In[ ]:
+
 
 
 count_months={}
@@ -157,10 +125,6 @@ for i in date_List:
 # print(count_months)
     
     
-
-
-# In[ ]:
-
 
 #plot for No. of tweets vs months
 l1 = list(count_months.keys())
@@ -180,9 +144,6 @@ data = [trace1]
 py.iplot(data, filename='fil')
 
 
-# In[ ]:
-
-
 # print(date_List[0])
 count_time={}
 for i in date_List:
@@ -192,10 +153,6 @@ for i in date_List:
     else:
          count_time[s]=1
 # print(count_time)
-
-
-# In[ ]:
-
 
 
 #plot for No. of tweets vs time(in hours)
@@ -216,9 +173,6 @@ data = [trace1]
 py.iplot(data, filename='fil')
 
 
-# In[ ]:
-
-
 #part e, printing formula
 tweets = tweets_collection.find({})
 retweet_dict=dict()
@@ -236,22 +190,11 @@ pp = pprint.PrettyPrinter(indent=4)
 pp.pprint(formula)
 
 
-# In[ ]:
-
-
 retweets=[]
 l = tweets_collection.find({})
 for i in l:
     retweets.append(api.retweeters(i['id']))
 
-
-# In[ ]:
-
-
-# print(retweets)
-
-
-# In[ ]:
 
 
 #part c
@@ -294,7 +237,7 @@ for i in frequency:
 
 
 
-# In[ ]:
+
 
 
 info=list()
@@ -327,9 +270,6 @@ for i in range(10):
 print(location_dict)   
 
 
-# In[ ]:
-
-
 #plotting frequency
 l1 = list(new_freq.keys())
 l2 = list(new_freq.values())
@@ -348,9 +288,6 @@ data = [trace1]
 py.iplot(data, filename='fil')
 
 
-# In[ ]:
-
-
 #plotting followers
 l1 = list(followers_dict.keys())
 l2 = list(followers_dict.values())
@@ -367,9 +304,6 @@ trace1 = go.Bar(
 )
 data = [trace1]
 py.iplot(data, filename='fil')
-
-
-# In[ ]:
 
 
 #plotting followees
@@ -392,9 +326,6 @@ data = [trace1]
 py.iplot(data, filename='fil')
 
 
-# In[37]:
-
-
 #plotting favourite count
 
 l1 = list(fav_count.keys())
@@ -414,14 +345,9 @@ data = [trace1]
 py.iplot(data, filename='fil')
 
 
-# In[38]:
-
-
 get_ipython().system('pip install gmplot')
 get_ipython().system('pip install geopy')
 
-
-# In[39]:
 
 
 import ssl
@@ -445,7 +371,7 @@ print(longitudes)
 print(latitudes)
 
 
-# In[76]:
+
 
 
 import gmplot 
@@ -455,28 +381,26 @@ gmap4.heatmap( latitudes, longitudes )
 gmap4.draw( "map1.html" )
 
 
-# In[41]:
-
 
 followers = []
 for follower in tweepy.Cursor(api.followers_ids, screen_name = 'GameOfThrones').pages():
     followers.extend(follower)
 
 
-# In[42]:
+
 
 
 print(len(followers))
 print(followers)
 
 
-# In[43]:
+
 
 
 tweets_collection = twitter_db['followers_collections']
 
 
-# In[44]:
+
 
 
 #storing followers
@@ -493,9 +417,6 @@ while(i < len(followers)):
     i+=1
 
 
-# 
-
-# In[ ]:
 
 
 # part b
@@ -517,7 +438,6 @@ def getFollowersLocations():
 # longitudes = []
 # print(len(locations))
 
-# In[74]:
 
 
 import ssl
